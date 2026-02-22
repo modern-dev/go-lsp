@@ -7,11 +7,16 @@ linters:
   disable:
     - forbidigo
     - godox
+    - goconst
   exclusions:
     warn-unused: true
     paths:
       - "./testdata/*/*.go"
   settings:
+    wsl_v5:
+      allow-first-in-block: true
+      allow-whole-block: false
+      branch-max-lines: 2
     depguard:
       rules:
         main:
