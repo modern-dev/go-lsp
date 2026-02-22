@@ -1,0 +1,96 @@
+# Copyright 2026 Bohdan Shtepan.
+# Licensed under the MIT License.
+
+version: '3'
+
+env:
+  BINARY:
+    sh: |
+      if [ "{{.GOOS}}" = "windows" ]; then
+        echo "generate.exe"
+      else
+        echo "generate"
+      fi
+
+tasks:
+  build:
+    desc: Build the binary
+    dir: .
+    silent: true
+    aliases:
+      - b
+    deps:
+      - clean
+    cmds:
+      - go build -v -race -o {{.BINARY}} ./cmd/generate
+      - chmod +x {{.BINARY}}
+
+  test:
+    desc: Run tests (benchmark + coverage) in verbose mode
+    dir: .
+    silent: true
+    aliases:
+      - t
+    cmds:
+      - go test -v ./...
+      - go test -bench=. ./...
+      - go test -cover ./...
+
+  test-bench:
+    desc: Run benchmark tests
+    dir: .
+    silent: true
+    aliases:
+      - tb
+    cmds:
+      - go test -bench=. ./...
+
+  test-cover:
+    desc: Run tests with coverage report
+    dir: .
+    silent: true
+    aliases:
+      - tc
+    cmds:
+      - go test -cover ./...
+
+  golangci-lint:
+    desc: Checks if golangci-lint is installed
+    dir: .
+    silent: true
+    preconditions:
+      - sh: 'command -v golangci-lint'
+        msg: golangci-lint is not installed.
+    cmds:
+      - golangci-lint version
+
+  fmt:
+    desc: Format Go files
+    dir: .
+    silent: true
+    deps:
+      - golangci-lint
+    aliases:
+      - f
+    cmds:
+      - golangci-lint fmt --color auto --config ./.golangci.yml --verbose
+
+  clean:
+    desc: Clean up
+    dir: .
+    silent: true
+    aliases:
+      - c
+    cmds:
+      - rm -f {{.BINARY}}
+
+  lint:
+    desc: Lint Go files
+    dir: .
+    silent: true
+    deps:
+      - golangci-lint
+    aliases:
+      - l
+    cmds:
+      - golangci-lint run --color auto --config ./.golangci.yml --verbose

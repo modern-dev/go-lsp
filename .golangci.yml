@@ -1,0 +1,53 @@
+# Copyright 2026 Bohdan Shtepan.
+# Licensed under the MIT License.
+
+version: "2"
+linters:
+  default: all
+  disable:
+    - forbidigo
+    - godox
+  exclusions:
+    warn-unused: true
+    paths:
+      - "./testdata/*/*.go"
+  settings:
+    depguard:
+      rules:
+        main:
+          list-mode: original
+          allow:
+            - $gostd
+            - go.lsp.dev/jsonrpc2
+            - github.com/modern-dev/go-lsp/internal/generate
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+    - golines
+    - swaggo
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+output:
+  formats:
+    text:
+      path: stdout
+      colors: true
+      print-issued-lines: true
+      print-linter-name: true
+  show-stats: true
+  sort-order:
+    - severity
+    - file
+    - linter
+  path-mode: "abs"
+run:
+  timeout: 5m
+  tests: false
+  allow-parallel-runners: true
+  allow-serial-runners: true
+  go: 1.26.0
+  concurrency: 8
