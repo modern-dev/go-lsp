@@ -8,6 +8,8 @@
 
 **A modern, generator-first Go implementation of the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) (LSP 3.17).**
 
+<img align="right" alt="go-lsp logo" src="./logo.png" height="128" />
+
 `go-lsp` is a drop-in replacement for the outdated and effectively abandoned [`go.lsp.dev/protocol`](https://pkg.go.dev/go.lsp.dev/protocol). Heavily influenced by Go's own [`gopls`](https://github.com/golang/tools/tree/master/gopls) and its internal protocol package, it takes a generator-first approach: the entire type system, server/client interfaces, and JSON-RPC dispatch layer are produced directly from Microsoft's official [`metaModel.json`](https://github.com/microsoft/vscode-languageserver-node/blob/main/protocol/metaModel.json) specification. This means bumping to a future LSP version is a one-line ref change and a `go generate` - no manual type wrangling required.
 
 ## Install
