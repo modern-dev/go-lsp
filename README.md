@@ -96,7 +96,6 @@ go-lsp/
 ├── protocol/                  LSP protocol package (importable)
 │   ├── doc.go                 Package doc + go:generate directive
 │   ├── uri.go                 DocumentURI / URI types + helpers
-│   ├── json.go                Marshal / Unmarshal wrappers
 │   ├── logger.go              Logger interface + NopLogger
 │   ├── errors.go              LSP error codes
 │   ├── handler.go             ServerHandler (hand-written glue)
