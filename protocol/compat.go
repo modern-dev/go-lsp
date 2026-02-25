@@ -101,3 +101,23 @@ const (
 	ImportsFoldingRange = FoldingRangeKindImports //nolint:revive
 	RegionFoldingRange  = FoldingRangeKindRegion
 )
+
+// ---------------------------------------------------------------------------
+// TextDocumentContentChangeEvent — concrete struct
+//
+// The LSP spec defines this as a union type, so the generated code emits
+// `type TextDocumentContentChangeEvent = any`. Consumers that relied on the
+// old go.lsp.dev/protocol struct need a concrete type with Range/Text fields.
+// ---------------------------------------------------------------------------
+
+// ContentChangeEvent is a concrete representation of an incremental or full
+// text document content change event. Use this when you need to access
+// Range and Text fields directly instead of the `any` type alias.
+type ContentChangeEvent struct {
+	// Range of the document that changed. Nil for full-content replacements.
+	Range *Range `json:"range,omitempty"`
+	// RangeLength is the optional length of the range being replaced.
+	RangeLength uint32 `json:"rangeLength,omitempty"`
+	// Text is the new text for the provided range, or the full document.
+	Text string `json:"text"`
+}
